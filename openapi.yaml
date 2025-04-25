@@ -58,7 +58,11 @@ paths:
         - $ref: '#/components/parameters/socketId'
       responses:
         '200':
-          $ref: '#/components/schemas/SwitchState'
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwitchState'          
 
   /home/{homeId}/sockets/{socketId}/change-status:
     post:
@@ -69,4 +73,8 @@ paths:
         - $ref: '#/components/parameters/switch'
       responses:
         '200':
-          $ref: '#/components/schemas/ChangeSwitchStateResponse'
+          description: "ok"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeSwitchStateResponse'
