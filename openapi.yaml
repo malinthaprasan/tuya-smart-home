@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: Smart Socket API
+  version: 1.0.0
+  description: API for controlling smart sockets
+
+components:
+  parameters:
+    homeId:
+      name: homeId
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [new-home]
+      example: new-home
+    socketId:
+      name: socketId
+      in: path
+      required: true  
+      schema:
+        type: string
+        enum: [exhaust-fan]
+      example: exhaust-fan
+    switch:
+      name: switch
+      in: query
+      required: true
+      schema:
+        type: string
+        enum: [on, off]
+  schemas:
+    SwitchState:
+      type: object
+      properties:
+        switch:
+          type: string
+          enum: [on, off]
+        current:
+          type: number
+        power:
+          type: number
+        voltage:
+          type: number
+    ChangeSwitchStateResponse:
+      type: object
+      properties:
+        switch:
+          type: string
+          enum: [on, off]
+
+paths:
+  /home/{homeId}/sockets/{socketId}/status:
+    get:
+      summary: Get socket status
+      parameters:
+        - $ref: '#/components/parameters/homeId'
+        - $ref: '#/components/parameters/socketId'
+      responses:
+        '200':
+          $ref: '#/components/schemas/SwitchState'
+
+  /home/{homeId}/sockets/{socketId}/change-status:
+    post:
+      summary: Change socket status
+      parameters:
+        - $ref: '#/components/parameters/homeId'
+        - $ref: '#/components/parameters/socketId'
+        - $ref: '#/components/parameters/switch'
+      responses:
+        '200':
+          $ref: '#/components/schemas/ChangeSwitchStateResponse'
